@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthDto } from './dto/auth.dto';
 import { constantsJWT } from './jwt-secret';
 import { ForbiddenException } from '@nestjs/common';
+import { create } from 'domain';
 
 @Injectable()
 export class AuthService {
@@ -56,8 +57,7 @@ export class AuthService {
     }
 
     // Hash password
-    const password = this.generatePassword();
-    const hash = await this.hashData(password);
+    const hash = await this.hashData(createUserDto.password);
     const newUser = await this.usersService.create({
       ...createUserDto,
       password: hash,
