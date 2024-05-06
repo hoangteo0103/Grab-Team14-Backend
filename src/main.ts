@@ -25,7 +25,7 @@ async function bootstrap() {
     .addTag('Emploi')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('API', app, document);
   await app.listen(process.env.PORT || 8080);
 }
 bootstrap();
