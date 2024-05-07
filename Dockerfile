@@ -7,7 +7,7 @@ WORKDIR /user/src/app
 
 COPY package.json package-lock.json ./
 
-RUN npm ci --omit=dev
+RUN NODE_ENV=development npm i
 
 COPY . .
 
