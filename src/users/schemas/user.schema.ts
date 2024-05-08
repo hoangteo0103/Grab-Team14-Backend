@@ -13,30 +13,24 @@ export class User {
   username?: string;
 
   @Prop({
-    required: function () {
-      return this.username ? true : false;
-    },
+    required: true,
   })
   password?: string;
 
   @Prop({
-    required: function () {
-      return this.username ? true : false;
-    },
+    required: false,
   })
   name?: string;
 
   @Prop({
-    required: function () {
-      return this.username ? true : false;
-    },
+    required: false,
   })
   contactNumber?: string;
 
   @Prop()
   refreshToken?: string;
 
-  @Prop({ require: true, default: Role.Admin })
+  @Prop({ require: true, default: Role.User })
   role?: Role;
 }
 

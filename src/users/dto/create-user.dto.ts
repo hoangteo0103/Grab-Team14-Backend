@@ -29,13 +29,7 @@ export class CreateUserDto {
   name: string;
 
   @ValidateIf((o) => o.username != null)
-  @IsNotEmpty()
-  @IsString()
-  @ApiProperty({ example: '0333333333' })
-  contactNumber: string;
-
-  @ValidateIf((o) => o.username != null)
-  @ApiProperty({ enum: ['Admin'] })
+  @ApiProperty({ enum: ['Admin', 'User'] })
   @IsString()
   role: Role;
 }
