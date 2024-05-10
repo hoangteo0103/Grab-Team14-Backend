@@ -4,7 +4,14 @@ import Role from '../role/roles.enum';
 
 export type UserDocument = User & Document;
 
-@Schema()
+@Schema({
+  toJSON: {
+    transform(doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+    },
+  },
+})
 export class User {
   @Prop({ required: true, unique: true })
   email?: string;
