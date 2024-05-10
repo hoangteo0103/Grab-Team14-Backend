@@ -7,6 +7,7 @@ import appConfig from 'src/config/app';
 import databaseConfig from 'src/config/database';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { FilterModule } from './filter/filter.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { UsersModule } from './users/users.module';
     }),
     AuthModule,
     UsersModule,
+    FilterModule,
   ],
   controllers: [AppController],
   providers: [AppService],
