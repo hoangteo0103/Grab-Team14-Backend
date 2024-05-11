@@ -49,9 +49,8 @@ export class FilterController {
     },
   })
   @ApiBody({
-    schema: {
-      $ref: getSchemaPath(CreateFilterDto),
-    },
+    required: true,
+    type: CreateFilterDto,
   })
   @Post()
   create(@Req() req, @Body() createFilterDto: CreateFilterDto) {
@@ -96,6 +95,10 @@ export class FilterController {
   }
 
   @Put(':id')
+  @ApiBody({
+    required: true,
+    type: UpdateFilterDto,
+  })
   @ApiOkResponse(successResponse)
   async update(
     @Param('id') id: string,
