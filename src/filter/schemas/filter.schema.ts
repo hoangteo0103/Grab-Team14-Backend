@@ -38,7 +38,7 @@ export class Filter {
   keyword?: string;
 
   @Prop({ required: false, enum: Object.values(ExperienceLevelFilters) })
-  experience_level?: string;
+  experienceLevel?: string;
 
   @Prop({ required: false, enum: Object.values(TimeFilters) })
   time?: string;
@@ -47,7 +47,7 @@ export class Filter {
   type?: string;
 
   @Prop({ required: false, enum: Object.values(WorkingModeFilters) })
-  working_mode?: string;
+  workingMode?: string;
 
   @Prop({ required: false, enum: Object.values(IndustryFilters) })
   industry?: string;

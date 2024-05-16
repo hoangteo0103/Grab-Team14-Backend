@@ -24,20 +24,20 @@ export class FilterService {
       !this.searchQueryModel.findOne({
         location: createFilterDto.location,
         keyword: createFilterDto.keyword,
-        experience_level: createFilterDto.experience_level,
-        time_filter: createFilterDto.time,
+        experienceLevel: createFilterDto.experienceLevel,
+        time: createFilterDto.time,
         type: createFilterDto.type,
-        working_mode: createFilterDto.working_mode,
+        workingMode: createFilterDto.workingMode,
         industry: createFilterDto.industry,
       })
     ) {
       this.searchQueryModel.create({
         location: createFilterDto.location,
         keyword: createFilterDto.keyword,
-        experience_level: createFilterDto.experience_level,
-        time_filter: createFilterDto.time,
+        experienceLevel: createFilterDto.experienceLevel,
+        time: createFilterDto.time,
         type: createFilterDto.type,
-        working_mode: createFilterDto.working_mode,
+        workingMode: createFilterDto.workingMode,
         industry: createFilterDto.industry,
       });
     }

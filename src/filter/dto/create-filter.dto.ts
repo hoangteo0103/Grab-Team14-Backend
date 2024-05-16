@@ -64,7 +64,7 @@ export class CreateFilterDto {
   @IsOptional()
   @IsString()
   @IsEnum(ExperienceLevelFilters)
-  experience_level?: string;
+  experienceLevel?: string;
 
   @ApiProperty({
     description: 'Time filter of the job',
@@ -97,7 +97,7 @@ export class CreateFilterDto {
   @IsOptional()
   @IsString()
   @IsEnum(WorkingModeFilters)
-  working_mode?: string;
+  workingMode?: string;
 
   @ApiProperty({
     description: 'Industry of the job',

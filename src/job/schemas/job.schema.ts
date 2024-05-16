@@ -56,7 +56,7 @@ export class Job {
   keyword?: string;
 
   @Prop({ required: false, enum: Object.values(ExperienceLevelFilters) })
-  experience_level?: string;
+  experienceLevel?: string;
 
   @Prop({ required: false, enum: Object.values(TimeFilters) })
   time?: string;
@@ -65,10 +65,13 @@ export class Job {
   type?: string;
 
   @Prop({ required: false, enum: Object.values(WorkingModeFilters) })
-  working_mode?: string;
+  workingMode?: string;
 
   @Prop({ required: false, enum: Object.values(IndustryFilters) })
   industry?: string;
+
+  @Prop({ required: true, enum: ['Linkedin', 'Topcv', 'Indeed'] })
+  platform: string;
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);

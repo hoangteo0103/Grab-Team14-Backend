@@ -29,28 +29,28 @@ export class SearchQuery {
   keyword?: string;
 
   @Prop({ required: false, enum: Object.values(ExperienceLevelFilters) })
-  experience_level?: string;
+  experienceLevel?: string;
 
   @Prop({ required: false, enum: Object.values(TimeFilters) })
-  time_filter?: string;
+  time?: string;
 
   @Prop({ required: false, enum: Object.values(TypeFilters) })
   type?: string;
 
   @Prop({ required: false, enum: Object.values(WorkingModeFilters) })
-  working_mode?: string;
+  workingMode?: string;
 
   @Prop({ required: false, enum: Object.values(IndustryFilters) })
   industry?: string;
 
   @Prop({ required: false })
-  last_crawled_linkedIn?: Date;
+  lastCrawledLinkedIn?: Date;
 
   @Prop({ required: false })
-  last_crawled_topcv?: Date;
+  lastCrawledTopcv?: Date;
 
   @Prop({ required: false })
-  last_crawled_indeed?: Date;
+  lastCrawledIndeed?: Date;
 }
 
 export const SearchQuerySchema = SchemaFactory.createForClass(SearchQuery);
