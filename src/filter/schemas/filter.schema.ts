@@ -31,6 +31,9 @@ export class Filter {
   @Prop({ required: true, type: UserSchema })
   user: User;
 
+  @Prop({ required: true, default: false })
+  isActive: boolean;
+
   @Prop({ required: false })
   location?: string;
 

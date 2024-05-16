@@ -45,11 +45,15 @@ export class FilterResponse {
 }
 
 export class FilterListResponse {
+  @ApiProperty()
+  id: string;
   @ApiProperty({})
   name: string;
 }
 
 export class FilterDetailResponse {
+  @ApiProperty()
+  id: string;
   @ApiProperty()
   name: string;
 
