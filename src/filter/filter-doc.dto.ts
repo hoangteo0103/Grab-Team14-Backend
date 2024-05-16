@@ -20,7 +20,7 @@ export class FilterResponse {
   @ApiProperty({
     enum: ExperienceLevelFilters,
   })
-  experience_level: string;
+  experienceLevel: string;
 
   @ApiProperty({
     enum: TimeFilters,
@@ -35,7 +35,7 @@ export class FilterResponse {
   @ApiProperty({
     enum: WorkingModeFilters,
   })
-  working_mode: string;
+  workingMode: string;
 
   @ApiProperty({
     isArray: true,
@@ -74,6 +74,8 @@ export class FilterListResponse {
 
 export class FilterDetailResponse {
   @ApiProperty()
+  id: string;
+  @ApiProperty()
   name: string;
 
   @ApiProperty()
@@ -85,7 +87,7 @@ export class FilterDetailResponse {
   @ApiProperty({
     enum: ExperienceLevelFilters,
   })
-  experience_level: string;
+  experienceLevel: string;
 
   @ApiProperty({
     enum: TimeFilters,
@@ -100,7 +102,7 @@ export class FilterDetailResponse {
   @ApiProperty({
     enum: WorkingModeFilters,
   })
-  working_mode: string;
+  workingMode: string;
 
   @ApiProperty({
     isArray: true,

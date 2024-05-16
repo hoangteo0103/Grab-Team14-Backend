@@ -12,7 +12,10 @@ import {
 } from '@nestjs/common';
 import { FilterService } from './filter.service';
 import { CreateFilterDto } from './dto/create-filter.dto';
-import { UpdateFilterDto } from './dto/update-filter.dto';
+import {
+  FilterUpdateStatusDto,
+  UpdateFilterDto,
+} from './dto/update-filter.dto';
 import Role from 'src/users/role/roles.enum';
 import RoleGuard from 'src/users/role/roles.guards';
 import {
@@ -29,6 +32,8 @@ import {
   FilterResponse,
 } from './filter-doc.dto';
 import { successResponse } from 'src/common/docs/response.doc';
+import { BodyId } from 'src/common/decorators/body-id.decorator';
+import { FilterUpdateStatusPipe } from './pipes/filter-update-status.pipe';
 
 @UseGuards(RoleGuard(Role.User))
 @ApiCookieAuth()
@@ -92,6 +97,18 @@ export class FilterController {
   })
   getDetail(@Param('id') id: string) {
     return this.filterService.findOne(+id);
+  }
+
+  @Put(':id/update-status')
+  @ApiOkResponse(successResponse)
+  async updateStatus(
+    @Param('id') id: string,
+    @BodyId(FilterUpdateStatusPipe) dto: FilterUpdateStatusDto,
+  ) {
+    await this.filterService.updateStatusById(+id, dto);
+    return {
+      status: 'success',
+    };
   }
 
   @Put(':id')

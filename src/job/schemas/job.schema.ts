@@ -6,15 +6,9 @@ import {
   TimeFilters,
   TypeFilters,
   WorkingModeFilters,
-} from '../filter.constant';
+} from 'src/filter/filter.constant';
 
-class User extends Document {
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'user' })
-  _id: string;
-}
-const UserSchema = SchemaFactory.createForClass(User);
-
-export type FilterDocument = Filter & Document;
+export type JobDocument = Job & Document;
 
 @Schema({
   toJSON: {
@@ -24,18 +18,39 @@ export type FilterDocument = Filter & Document;
     },
   },
 })
-export class Filter {
+export class Job {
   @Prop({ required: true, maxlength: 100 })
-  name: string;
+  title: string;
 
-  @Prop({ required: true, type: UserSchema })
-  user: User;
+  @Prop({ required: true })
+  description: string;
 
-  @Prop({ required: true, default: false })
-  isActive: boolean;
+  @Prop({ required: false })
+  date: Date;
+
+  @Prop({ required: true })
+  jobLink: string;
+
+  @Prop({ required: true })
+  applyLink: string;
+
+  @Prop({ required: true })
+  companyName: string;
+
+  @Prop({ required: true })
+  companyLink: string;
+
+  @Prop({ required: false })
+  companyImageUrl: string;
 
   @Prop({ required: false })
   location?: string;
+
+  @Prop({ required: false })
+  companyLocation?: string;
+
+  @Prop({ required: false })
+  skills?: [string];
 
   @Prop({ required: false })
   keyword?: string;
@@ -55,20 +70,8 @@ export class Filter {
   @Prop({ required: false, enum: Object.values(IndustryFilters) })
   industry?: string;
 
-  @Prop({ required: false })
-  includeTitles?: [string];
-
-  @Prop({ required: false })
-  excludeTitles?: [string];
-
-  @Prop({ required: false })
-  excludeCompanies?: [string];
-
-  @Prop({ required: false })
-  includeDescription?: [string];
-
-  @Prop({ required: false })
-  excludeDescription?: [string];
+  @Prop({ required: true, enum: ['Linkedin', 'Topcv', 'Indeed'] })
+  platform: string;
 }
 
-export const FilterSchema = SchemaFactory.createForClass(Filter);
+export const JobSchema = SchemaFactory.createForClass(Job);

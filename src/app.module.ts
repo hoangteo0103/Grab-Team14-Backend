@@ -8,6 +8,7 @@ import databaseConfig from 'src/config/database';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { FilterModule } from './filter/filter.module';
+import { JobModule } from './job/job.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { FilterModule } from './filter/filter.module';
     AuthModule,
     UsersModule,
     FilterModule,
+    JobModule,
   ],
   controllers: [AppController],
   providers: [AppService],
