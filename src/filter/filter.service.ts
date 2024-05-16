@@ -48,7 +48,7 @@ export class FilterService {
   }
 
   findAll(userId: string) {
-    return this.filterModel.find({ user: userId }).exec();
+    return this.filterModel.find({ user: userId }, { id: 1, name: 1 }).exec();
   }
 
   findOne(id: number) {

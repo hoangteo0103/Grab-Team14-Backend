@@ -42,11 +42,32 @@ export class FilterResponse {
     enum: IndustryFilters,
   })
   industry: [string];
+
+  @ApiProperty({
+    isArray: true,
+  })
+  excludeTitles?: [string];
+
+  @ApiProperty({
+    isArray: true,
+  })
+  excludeCompanies?: [string];
+
+  @ApiProperty({
+    isArray: true,
+  })
+  includeDescription?: [string];
+
+  @ApiProperty({
+    isArray: true,
+  })
+  excludeDescription?: [string];
 }
 
 export class FilterListResponse {
   @ApiProperty()
   id: string;
+
   @ApiProperty({})
   name: string;
 }
@@ -88,4 +109,24 @@ export class FilterDetailResponse {
     enum: IndustryFilters,
   })
   industry: [string];
+
+  @ApiProperty({
+    isArray: true,
+  })
+  excludeTitles?: [string];
+
+  @ApiProperty({
+    isArray: true,
+  })
+  excludeCompanies?: [string];
+
+  @ApiProperty({
+    isArray: true,
+  })
+  includeDescription?: [string];
+
+  @ApiProperty({
+    isArray: true,
+  })
+  excludeDescription?: [string];
 }
