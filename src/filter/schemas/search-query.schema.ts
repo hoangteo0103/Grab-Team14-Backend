@@ -29,7 +29,7 @@ export class SearchQuery {
   keyword?: string;
 
   @Prop({ required: false, enum: Object.values(ExperienceLevelFilters) })
-  experienceLevel?: string;
+  experience?: string;
 
   @Prop({ required: false, enum: Object.values(TimeFilters) })
   time?: string;

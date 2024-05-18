@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
+import * as paginate from 'mongoose-paginate-v2';
 import {
   ExperienceLevelFilters,
   IndustryFilters,
@@ -31,8 +32,8 @@ export class Job {
   @Prop({ required: true })
   jobLink: string;
 
-  @Prop({ required: true })
-  applyLink: string;
+  @Prop({ required: false })
+  applyLink?: string;
 
   @Prop({ required: true })
   companyName: string;
@@ -50,13 +51,10 @@ export class Job {
   companyLocation?: string;
 
   @Prop({ required: false })
-  skills?: [string];
-
-  @Prop({ required: false })
-  keyword?: string;
+  requirements?: [string];
 
   @Prop({ required: false, enum: Object.values(ExperienceLevelFilters) })
-  experienceLevel?: string;
+  experience?: string;
 
   @Prop({ required: false, enum: Object.values(TimeFilters) })
   time?: string;
@@ -67,11 +65,12 @@ export class Job {
   @Prop({ required: false, enum: Object.values(WorkingModeFilters) })
   workingMode?: string;
 
-  @Prop({ required: false, enum: Object.values(IndustryFilters) })
-  industry?: string;
+  @Prop({ required: false })
+  industry?: [string];
 
   @Prop({ required: true, enum: ['Linkedin', 'Topcv', 'Indeed'] })
   platform: string;
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);
+JobSchema.plugin(paginate);

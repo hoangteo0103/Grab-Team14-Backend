@@ -10,7 +10,7 @@ import { SearchQuery, SearchQuerySchema } from './schemas/search-query.schema';
   imports: [
     MongooseModule.forFeature([{ name: Filter.name, schema: FilterSchema }]),
     MongooseModule.forFeature([
-      { name: SearchQuery.name, schema: SearchQuerySchema },
+      { name: 'search_queries', schema: SearchQuerySchema },
     ]),
   ],
   controllers: [FilterController, FilterOptionController],

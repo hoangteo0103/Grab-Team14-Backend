@@ -20,7 +20,7 @@ export class FilterResponse {
   @ApiProperty({
     enum: ExperienceLevelFilters,
   })
-  experienceLevel: string;
+  experience: string;
 
   @ApiProperty({
     enum: TimeFilters,
@@ -87,7 +87,7 @@ export class FilterDetailResponse {
   @ApiProperty({
     enum: ExperienceLevelFilters,
   })
-  experienceLevel: string;
+  experience: string;
 
   @ApiProperty({
     enum: TimeFilters,
