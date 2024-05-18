@@ -16,7 +16,7 @@ import {
 export class FilterService {
   constructor(
     @InjectModel(Filter.name) private filterModel: Model<FilterDocument>,
-    @InjectModel(SearchQuery.name)
+    @InjectModel('search_queries')
     private searchQueryModel: Model<SearchQueryDocument>,
   ) {}
 
@@ -27,7 +27,7 @@ export class FilterService {
       !this.searchQueryModel.findOne({
         location: createFilterDto.location,
         keyword: createFilterDto.keyword,
-        experienceLevel: createFilterDto.experienceLevel,
+        experience: createFilterDto.experience,
         time: createFilterDto.time,
         type: createFilterDto.type,
         workingMode: createFilterDto.workingMode,
@@ -37,7 +37,7 @@ export class FilterService {
       this.searchQueryModel.create({
         location: createFilterDto.location,
         keyword: createFilterDto.keyword,
-        experienceLevel: createFilterDto.experienceLevel,
+        experience: createFilterDto.experience,
         time: createFilterDto.time,
         type: createFilterDto.type,
         workingMode: createFilterDto.workingMode,

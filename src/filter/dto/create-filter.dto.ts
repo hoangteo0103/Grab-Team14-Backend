@@ -64,7 +64,7 @@ export class CreateFilterDto {
   @IsOptional()
   @IsString()
   @IsEnum(ExperienceLevelFilters)
-  experienceLevel?: string;
+  experience?: string;
 
   @ApiProperty({
     description: 'Time filter of the job',

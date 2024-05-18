@@ -62,8 +62,8 @@ export class AuthService {
       ...createUserDto,
       password: hash,
     });
-    const tokens = await this.getTokens(newUser._id, newUser.username);
-    await this.updateRefreshToken(newUser._id, tokens.refreshToken);
+    const tokens = await this.getTokens(newUser.id, newUser.username);
+    await this.updateRefreshToken(newUser.id, tokens.refreshToken);
     // await this.mailService.sendUserConfirmation(
     //   createUserDto.email,
     //   createUserDto.name,
@@ -80,8 +80,8 @@ export class AuthService {
     const passwordMatches = await argon2.verify(user.password, data.password);
     if (!passwordMatches)
       throw new BadRequestException('Password is incorrect');
-    const tokens = await this.getTokens(user._id, user.username);
-    await this.updateRefreshToken(user._id, tokens.refreshToken);
+    const tokens = await this.getTokens(user.id, user.username);
+    await this.updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
   }
 

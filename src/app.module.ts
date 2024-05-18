@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { FilterModule } from './filter/filter.module';
 import { JobModule } from './job/job.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { JobModule } from './job/job.module';
     UsersModule,
     FilterModule,
     JobModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService],
