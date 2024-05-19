@@ -9,7 +9,7 @@ import {
   UseInterceptors,
   Query,
 } from '@nestjs/common';
-import { JobService } from './job.service';
+import { JobService } from '../services/job.service';
 import {
   ApiExtraModels,
   ApiOkResponse,
@@ -19,8 +19,8 @@ import {
 } from '@nestjs/swagger';
 import { PaginationResponse } from 'src/common/docs/response.doc';
 import { pagination } from 'src/common/decorators/pagination';
-import { JobDetailResponse, JobListResponse } from './job-doc.dto';
-import { PaginationCustomInterceptor } from './interceptors/pagination-custom.interceptor';
+import { JobDetailResponse, JobListResponse } from '../job-doc.dto';
+import { PaginationCustomInterceptor } from '../interceptors/pagination-custom.interceptor';
 import { filter } from 'src/common/decorators/filter';
 
 @ApiTags('job')

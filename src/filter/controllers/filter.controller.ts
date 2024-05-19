@@ -10,12 +10,12 @@ import {
   Req,
   Put,
 } from '@nestjs/common';
-import { FilterService } from './filter.service';
-import { CreateFilterDto } from './dto/create-filter.dto';
+import { FilterService } from '../filter.service';
+import { CreateFilterDto } from '../dto/create-filter.dto';
 import {
   FilterUpdateStatusDto,
   UpdateFilterDto,
-} from './dto/update-filter.dto';
+} from '../dto/update-filter.dto';
 import Role from 'src/users/role/roles.enum';
 import RoleGuard from 'src/users/role/roles.guards';
 import {
@@ -30,10 +30,10 @@ import {
   FilterDetailResponse,
   FilterListResponse,
   FilterResponse,
-} from './filter-doc.dto';
+} from '../filter-doc.dto';
 import { successResponse } from 'src/common/docs/response.doc';
 import { BodyId } from 'src/common/decorators/body-id.decorator';
-import { FilterUpdateStatusPipe } from './pipes/filter-update-status.pipe';
+import { FilterUpdateStatusPipe } from '../pipes/filter-update-status.pipe';
 
 @UseGuards(RoleGuard(Role.User))
 @ApiCookieAuth()
@@ -96,7 +96,7 @@ export class FilterController {
     },
   })
   getDetail(@Param('id') id: string) {
-    return this.filterService.findOne(+id);
+    return this.filterService.findOne(id);
   }
 
   @Put(':id/update-status')
@@ -105,7 +105,7 @@ export class FilterController {
     @Param('id') id: string,
     @BodyId(FilterUpdateStatusPipe) dto: FilterUpdateStatusDto,
   ) {
-    await this.filterService.updateStatusById(+id, dto);
+    await this.filterService.updateStatusById(id, dto);
     return {
       status: 'success',
     };
@@ -121,7 +121,7 @@ export class FilterController {
     @Param('id') id: string,
     @Body() updateFilterDto: UpdateFilterDto,
   ) {
-    await this.filterService.update(+id, updateFilterDto);
+    await this.filterService.update(id, updateFilterDto);
     return {
       status: 'success',
     };
@@ -130,7 +130,7 @@ export class FilterController {
   @Delete(':id')
   @ApiOkResponse(successResponse)
   async remove(@Param('id') id: string) {
-    await this.filterService.remove(+id);
+    await this.filterService.remove(id);
     return {
       status: 'success',
     };

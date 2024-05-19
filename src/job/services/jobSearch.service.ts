@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
 import { Job } from 'src/job/schemas/job.schema';
-import JobSearchResult from './types/jobSearchResponse.interface';
-import JobSearchBody from './types/jobSearchBody.interface';
+import JobSearchResult from '../types/jobSearchResponse.interface';
+import JobSearchBody from '../types/jobSearchBody.interface';
 
 @Injectable()
 export default class JobsSearchService {

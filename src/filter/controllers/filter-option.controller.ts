@@ -9,7 +9,7 @@ import {
   UseGuards,
   Res,
 } from '@nestjs/common';
-import { FilterService } from './filter.service';
+import { FilterService } from '../filter.service';
 import { ApiCookieAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
   TimeFilters,
