@@ -51,19 +51,19 @@ export class FilterService {
     return this.filterModel.find({ user: userId }, { id: 1, name: 1 }).exec();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} filter`;
   }
 
-  update(id: number, updateFilterDto: UpdateFilterDto) {
+  update(id: string, updateFilterDto: UpdateFilterDto) {
     return this.filterModel.findByIdAndUpdate(id, updateFilterDto).exec();
   }
 
-  updateStatusById(id: number, dto: FilterUpdateStatusDto) {
+  updateStatusById(id: string, dto: FilterUpdateStatusDto) {
     return this.filterModel.findOneAndUpdate({ _id: id }, dto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.filterModel.findByIdAndDelete(id).exec();
   }
 }

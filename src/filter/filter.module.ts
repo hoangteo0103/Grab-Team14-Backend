@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { FilterService } from './filter.service';
-import { FilterController } from './filter.controller';
-import { FilterOptionController } from './filter-option.controller';
+import { FilterController } from './controllers/filter.controller';
+import { FilterOptionController } from './controllers/filter-option.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Filter, FilterSchema } from './schemas/filter.schema';
 import { SearchQuery, SearchQuerySchema } from './schemas/search-query.schema';

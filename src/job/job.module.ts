@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { JobService } from './job.service';
-import { JobController } from './job.controller';
+import { JobService } from './services/job.service';
+import { JobController } from './controllers/job.controller';
 import { FilterModule } from 'src/filter/filter.module';
-import JobsSearchService from './jobSearch.service';
+import JobsSearchService from './services/jobSearch.service';
 import { Job, JobSchema } from './schemas/job.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SearchModule } from 'src/search/search.module';
