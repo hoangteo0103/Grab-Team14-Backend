@@ -48,6 +48,12 @@ export class JobListResponse {
   workingMode?: string;
 
   @ApiProperty({
+    type: [String],
+    enum: IndustryFilters,
+  })
+  industry?: [string];
+
+  @ApiProperty({
     enum: ['Linkedin', 'Topcv', 'Indeed', 'Vietnamworks'],
   })
   platform: string;

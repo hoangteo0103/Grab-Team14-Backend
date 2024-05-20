@@ -81,6 +81,7 @@ export class JobService {
         'type',
         'workingMode',
         'platform',
+        'industry',
       ],
     });
     return result;
