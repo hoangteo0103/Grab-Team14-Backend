@@ -17,6 +17,8 @@ const UserSchema = SchemaFactory.createForClass(User);
 export type FilterDocument = Filter & Document;
 
 @Schema({
+  timestamps: true,
+
   toJSON: {
     transform(doc, ret) {
       ret.id = ret._id;

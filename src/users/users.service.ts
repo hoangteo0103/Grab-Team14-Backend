@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateCVDto, UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
-
+const { spawnSync } = require('child_process');
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
@@ -20,24 +20,6 @@ export class UsersService {
         {
           $match: {
             $and: [{ role: { $ne: 'admin' } }],
-          },
-        },
-      ])
-      .exec();
-    return docs;
-  }
-
-  async findWithAsset(id: string): Promise<UserDocument> {
-    const docs = await this.userModel.findById(id).populate('assets').exec();
-    return docs;
-  }
-
-  async findAllEmployee(): Promise<UserDocument[]> {
-    const docs = await this.userModel
-      .aggregate([
-        {
-          $match: {
-            $and: [{ role: { $ne: 'admin' } }, { role: { $ne: 'manager' } }],
           },
         },
       ])
@@ -90,5 +72,28 @@ export class UsersService {
 
   async remove(id: string): Promise<UserDocument> {
     return this.userModel.findByIdAndDelete(id).exec();
+  }
+
+  async updateCV(id: string, dto: UpdateCVDto) {
+    // await this.userModel.findByIdAndUpdate(id, dto).exec();
+    console.log(dto);
+    const pythonProcess = await spawnSync('python', [
+      'src/users/scripts/cv_script.py',
+      'process_cv',
+      dto.cvURL,
+    ]);
+
+    const result = pythonProcess.stdout?.toString()?.trim();
+    const res = JSON.parse(result);
+    let error = pythonProcess.stderr?.toString()?.trim();
+    if (result) {
+      error = null;
+    } else {
+      throw new Error(error);
+    }
+    this.userModel
+      .findByIdAndUpdate(id, { cvURL: dto.cvURL, skills: res.skills })
+      .exec();
+    return { result: res };
   }
 }

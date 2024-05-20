@@ -192,4 +192,7 @@ export class HistoryJobResponse {
     enum: ['Linkedin', 'Topcv', 'Indeed', 'Vietnamworks'],
   })
   platform: string;
+
+  @ApiProperty()
+  createdAt: Date;
 }
