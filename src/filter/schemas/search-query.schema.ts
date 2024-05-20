@@ -11,6 +11,7 @@ import {
 export type SearchQueryDocument = SearchQuery & Document;
 
 @Schema({
+  timestamps: true,
   toJSON: {
     transform(doc, ret) {
       ret.id = ret._id;
