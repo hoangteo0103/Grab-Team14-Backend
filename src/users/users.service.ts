@@ -43,7 +43,10 @@ export class UsersService {
   async findByEmail(email: string): Promise<UserDocument> {
     //return this.userModel.findOne({ email }).exec();
     const data = await this.userModel
-      .aggregate([{ $match: { email: email } }, { $project: { email: 1 } }])
+      .aggregate([
+        { $match: { email: email } },
+        { $project: { email: 1, password: 1 } },
+      ])
       .exec();
     return data[0];
   }

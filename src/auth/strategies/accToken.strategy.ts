@@ -6,7 +6,7 @@ import { constantsJWT } from '../jwt-secret';
 
 type JwtPayload = {
   sub: string;
-  username: string;
+  email: string;
 };
 
 const extactFromCookie = (request) => {

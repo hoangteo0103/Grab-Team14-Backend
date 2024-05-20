@@ -54,12 +54,11 @@ export class AuthService {
     }
 
     // Hash password
-    const hash = await this.hashData(createUserDto.password);
+    createUserDto.password = await this.hashData(createUserDto.password);
     const newUser = await this.usersService.create({
       ...createUserDto,
-      password: hash,
     });
-    const tokens = await this.getTokens(newUser.id, newUser.username);
+    const tokens = await this.getTokens(newUser.id, newUser.email);
     await this.updateRefreshToken(newUser.id, tokens.refreshToken);
     // await this.mailService.sendUserConfirmation(
     //   createUserDto.email,
@@ -72,8 +71,9 @@ export class AuthService {
 
   async signIn(data: AuthDto) {
     // Check if user exists
-    const user = await this.usersService.findByUsername(data.username);
+    const user = await this.usersService.findByEmail(data.email);
     if (!user) throw new BadRequestException('User does not exist');
+    console.log(user, data.password);
     const passwordMatches = await argon2.verify(user.password, data.password);
     if (!passwordMatches)
       throw new BadRequestException('Password is incorrect');
@@ -98,12 +98,12 @@ export class AuthService {
     });
   }
 
-  async getTokens(userId: string, username: string) {
+  async getTokens(userId: string, email: string) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
           sub: userId,
-          username,
+          email,
         },
         {
           secret: constantsJWT[0],
@@ -113,7 +113,7 @@ export class AuthService {
       this.jwtService.signAsync(
         {
           sub: userId,
-          username,
+          email,
         },
         {
           secret: constantsJWT[1],

@@ -41,15 +41,17 @@ export class AuthController {
 
   @Post('signin')
   async signin(@Body() data: AuthDto, @Req() req, @Res() res) {
+    console.log(data);
     const jwt_token = await this.authService.signIn(data);
     res.cookie('access_token', jwt_token.accessToken);
     res.cookie('refresh_token', jwt_token.refreshToken);
-    const user = await this.userService.findByUsername(data.username);
+    const user = await this.userService.findByEmail(data.email);
 
     const returnUser = {
       username: user.username,
       email: user.email,
     };
+    console.log(returnUser);
     return res.status(HttpStatus.OK).json({
       user: returnUser,
       accessToken: jwt_token.accessToken,
