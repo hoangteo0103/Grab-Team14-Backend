@@ -45,6 +45,16 @@ export class AuthController {
     res.cookie('access_token', jwt_token.accessToken);
     res.cookie('refresh_token', jwt_token.refreshToken);
     const user = await this.userService.findByUsername(data.username);
+
+    const returnUser = {
+      username: user.username,
+      email: user.email,
+    };
+    return res.status(HttpStatus.OK).json({
+      user: returnUser,
+      accessToken: jwt_token.accessToken,
+      refreshToken: jwt_token.refreshToken,
+    });
   }
   @ApiCookieAuth()
   @UseGuards(AccessTokenGuard)

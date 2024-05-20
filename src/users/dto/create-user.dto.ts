@@ -24,10 +24,6 @@ export class CreateUserDto {
   @ApiProperty({ example: 'password' })
   password: string;
 
-  @IsNotEmpty()
-  @ApiProperty({ example: 'Hoang' })
-  name: string;
-
   @ValidateIf((o) => o.username != null)
   @ApiProperty({ enum: ['Admin', 'User'] })
   @IsString()

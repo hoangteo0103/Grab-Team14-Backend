@@ -48,9 +48,6 @@ export class AuthService {
 
   async signUp(createUserDto: CreateUserDto): Promise<any> {
     // Check if user exists
-    createUserDto.username = this.removeAccents(createUserDto.name)
-      .toLocaleLowerCase()
-      .replace(/\s/g, '');
     const userExists = await this.usersService.findByEmail(createUserDto.email);
     if (userExists) {
       throw new BadRequestException('User already exists');
