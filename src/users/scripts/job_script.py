@@ -20,6 +20,12 @@ def process_job(job_dict):
     load_dotenv()
     vertexai.init(project=os.getenv('PROJECT_ID'), location=os.getenv('LOCATION'))
     job_desc = job_dict.get('description', "")
+    if job_desc == "":
+        print("Job description is empty")
+        return
+    
+    job_desc = job_desc.replace("\"", "\'")
+    job_dict["description"] = job_desc
 
     extract_job_keywords_func = FunctionDeclaration(
         name="extract_job_keywords",
@@ -29,9 +35,9 @@ def process_job(job_dict):
             "properties": {
                 "industries": {
                     "type": "array",
-                    "description": "A list of relevent industries",
+                    "description": "A list of relevant industries",
                     "items": {
-                        "description": "job industry",
+                        "description": "name of job industry in {ACCOMMODATION_SERVICES, ADMINISTRATIVE_AND_SUPPOR_SERVICES, CONSTRUCTION, CONSUMER_SERVICES, EDUCATION, ENTERTAINMENT_PROVIDERS, FARMING_RANCHING_FORESTRY, FINANCIAL_SERVICES, GOVERNMENT_ADMINISTRATION, HOSPITALS_AND_HEALTH_CARE, MANUFACTURING, PROFESSIONAL_SERVICES, REAL_ESTATE_AND_EQUIPMENT_RENTAL_SERVICES, RETAIL, TECHNOLOGY_INFORMATION_AND_MEDIA}",
                         "type": "string",
                     },
                 },
@@ -39,7 +45,7 @@ def process_job(job_dict):
                     "type": "array",
                     "description": "A list of position requirements",
                     "items": {
-                        "description": "job requirement",
+                        "description": "job requirement in English",
                         "type": "string",
                     },
                 },
@@ -80,14 +86,15 @@ def process_job(job_dict):
     chat = model.start_chat()
 
     try:
-        response = chat.send_message(f"Give me the industries, and requirements corresponding with the given JD: ```{job_desc}```")
+        response = chat.send_message(f"Give me the industries, and requirements corresponding with the given JD: ```{job_desc}```.  The industries must belong to the industry group: [ACCOMMODATION_SERVICES, ADMINISTRATIVE_AND_SUPPOR_SERVICES, CONSTRUCTION, CONSUMER_SERVICES, EDUCATION, ENTERTAINMENT_PROVIDERS, FARMING_RANCHING_FORESTRY, FINANCIAL_SERVICES, GOVERNMENT_ADMINISTRATION, HOSPITALS_AND_HEALTH_CARE, MANUFACTURING, PROFESSIONAL_SERVICES, REAL_ESTATE_AND_EQUIPMENT_RENTAL_SERVICES, RETAIL, TECHNOLOGY_INFORMATION_AND_MEDIA]. The answer must be in English.")
         fc = response.candidates[0].content.parts[0].function_call
         info_dict = type(fc).to_dict(fc)["args"]
 
         # update job dict
         # job_dict["responsibilities"] = info_dict["responsibilities"]
         job_dict["requirements"] = info_dict["requirements"]
-        job_dict["industries"] = info_dict["industries"]
+        job_dict["industries"].extend(info_dict["industries"])
+        job_dict["industries"] = list(set(job_dict["industries"]))
     except Exception as e:
         print(f"Error sending message: {e}")
         

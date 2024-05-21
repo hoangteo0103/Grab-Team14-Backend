@@ -26,28 +26,31 @@ def scan_pdf(url):
     return content
 
 
-def extract_skill_by_cv(cv_url, chat):
+def extract_info_by_cv(cv_url, chat):
     content = scan_pdf(cv_url)
+    content = content.replace('\"', '\'')
     try:
-        response = chat.send_message(f"Give me skill keywords from given resume content: ```{content}```")
+        response = chat.send_message(f"You are doing keywords extracting task to preprocess data. Give me the skill keywords and information of job applicant from given resume content: ```{content}```. The answer must be in English.")
         fc = response.candidates[0].content.parts[0].function_call
-        skills = type(fc).to_dict(fc)["args"]
-        skills_dict = {'skills': []}
-        for skill in skills:
-            skills_dict['skills'].extend(skills[skill])
+        info = type(fc).to_dict(fc)["args"]
+        info_dict = {'skills': []}
+        for skill in ['technical_skills', 'soft_skills', 'additional_skills']:
+            info_dict['skills'].extend(info[skill])
 
-        return skills_dict
+        info_dict['personal_information'] = info['personal_information']
+
+        return info_dict
     except Exception as e:
         print(f"Error sending message: {e}")
-        return {'skills': []}
+        return {'skills': [], 'personal_information': {}}
     
 def process_cv():
     load_dotenv()
     vertexai.init(project=os.getenv('PROJECT_ID'), location=os.getenv('LOCATION'))
     cv_url = sys.argv[2]
-    extract_skill_keywords_func = FunctionDeclaration(
-    name="extract_skill_keywords",
-    description="Extract skill keywords from a given resume.",
+    extract_information_func = FunctionDeclaration(
+    name="extract_information",
+    description="Extract skill keywords, and job applicant information from a given resume.",
     parameters={
         "type": "object",
         "properties": {
@@ -55,7 +58,7 @@ def process_cv():
                 "type": "array",
                 "description": "A list of technical skills",
                 "items": {
-                    "description": "technical skill keyword",
+                    "description": "technical skill keyword in English",
                     "type": "string",
                 },
             },
@@ -63,7 +66,7 @@ def process_cv():
                 "type": "array",
                 "description": "A list of soft skills",
                 "items": {
-                    "description": "soft skill keyword",
+                    "description": "soft skill keyword in English",
                     "type": "string",
                 },
             },
@@ -71,18 +74,36 @@ def process_cv():
                 "type": "array",
                 "description": "A list of additional skills",
                 "items": {
-                    "description": "additional skill keyword",
+                    "description": "additional skill keyword in English",
                     "type": "string",
                 },
             },
+            "personal_information": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "name of job applicant in English",
+                        "type": "string",
+                    },
+                    "phone_number": {
+                        "description": "phone number of job applicant in English",
+                        "type": "string",
+                    },
+                    "email": {
+                        "description": "email of job applicant in English",
+                        "type": "string",
+                    },
+                },
+                "required": ["name", "phone_number", "email"],
+            },
         },
-        "required": ["technical_skills", "soft_skills", "additional_skills"],
+        "required": ["technical_skills", "soft_skills", "additional_skills", "personal_information"],
     },
     )
 
     # Define a tool that includes the above functions
     resume_tool = Tool(
-        function_declarations=[extract_skill_keywords_func],
+        function_declarations=[extract_information_func],
     )
 
     # Define a tool config for the above functions
@@ -92,7 +113,7 @@ def process_cv():
             mode=ToolConfig.FunctionCallingConfig.Mode.ANY,
             # List of functions that can be returned when the mode is ANY.
             # If the list is empty, any declared function can be returned.
-            allowed_function_names=["extract_skill_keywords"],
+            allowed_function_names=["extract_information"],
         )
     )
 
@@ -103,9 +124,9 @@ def process_cv():
                             )
     chat = model.start_chat()
 
-    skills_dict = extract_skill_by_cv(cv_url, chat)
-    print(json.dumps(skills_dict))
-    return json.dumps(skills_dict)
+    info_dict = scan_cv.extract_info_by_cv(cv_url, chat)
+    print(json.dumps(info_dict))
+    return json.dumps(info_dict)
 
 
 if sys.argv[1] == 'process_cv':
