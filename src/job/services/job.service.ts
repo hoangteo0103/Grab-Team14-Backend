@@ -100,8 +100,17 @@ export class JobService {
       filterParam,
     );
     const ids = results.map((result) => result.id);
+    const conditions: {
+      _id?: {
+        $in: string[];
+      };
+    } = {};
+    conditions._id = {
+      $in: ids,
+    };
+
     return await this.jobRepository.pagination({
-      _id: { $in: ids },
+      conditions: conditions,
       ...paginationParam,
       sort: {
         order: 1,

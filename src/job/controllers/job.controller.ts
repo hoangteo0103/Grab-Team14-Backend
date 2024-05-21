@@ -112,9 +112,10 @@ export class JobController {
   async list(
     @pagination() paginationParam,
     @filter() filterParams,
-    @Query() search: string,
+    @Query('search') search: string,
   ) {
-    if (search.length > 0) {
+    if (search) {
+      console.log(search);
       return this.jobService.searchForJobs(
         search,
         paginationParam,

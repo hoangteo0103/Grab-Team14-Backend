@@ -62,11 +62,10 @@ export default class JobsSearchService {
     const body = await this.elasticsearchService.search<JobSearchResult>({
       index: this.index,
       body: {
-        from: (paginationParam.page - 1) * paginationParam.limit,
-        size: paginationParam.limit,
+        size: 1000,
         query: {
           multi_match: {
-            query: 'developer',
+            query: text,
             fields: [
               'title',
               'description',
