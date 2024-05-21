@@ -18,7 +18,7 @@ export class JobListResponse {
   date: Date;
 
   @ApiProperty()
-  companyName: string;
+  company: string;
 
   @ApiProperty()
   companyLink: string;
@@ -79,7 +79,7 @@ export class JobDetailResponse {
   applyLink: string;
 
   @ApiProperty()
-  companyName: string;
+  company: string;
 
   @ApiProperty()
   companyLink: string;
@@ -151,7 +151,7 @@ export class HistoryJobResponse {
   applyLink: string;
 
   @ApiProperty()
-  companyName: string;
+  company: string;
 
   @ApiProperty()
   companyLink: string;

@@ -36,7 +36,7 @@ export class Job {
   applyLink?: string;
 
   @Prop({ required: true })
-  companyName: string;
+  company: string;
 
   @Prop({ required: true })
   companyLink: string;

@@ -69,7 +69,7 @@ export default class JobsSearchService {
             fields: [
               'title',
               'description',
-              'companyName',
+              'company',
               'location',
               'industry',
               'workingMode',

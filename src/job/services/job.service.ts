@@ -72,7 +72,7 @@ export class JobService {
         'id',
         'title',
         'date',
-        'companyName',
+        'company',
         'companyLink',
         'companyImageUrl',
         'location',

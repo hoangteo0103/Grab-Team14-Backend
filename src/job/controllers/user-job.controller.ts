@@ -12,18 +12,19 @@ import {
   Req,
 } from '@nestjs/common';
 import { JobService } from '../services/job.service';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { successResponse } from 'src/common/docs/response.doc';
 import { JobUpdateStatusDto } from '../dto/update-job.dto';
 import { UserJobService } from '../services/user-job.service';
 import Role from 'src/users/role/roles.enum';
 import RoleGuard from 'src/users/role/roles.guards';
 
-import { HistoryJobResponse, JobDetailResponse } from '../job-doc.dto';
+import { HistoryJobResponse } from '../job-doc.dto';
 import { ApiExtraModels, getSchemaPath } from '@nestjs/swagger';
 @UseGuards(RoleGuard(Role.User))
-@ApiTags('job')
-@Controller('job')
+@ApiTags('user-job')
+@Controller('userJob')
+@ApiCookieAuth()
 export class UserJobController {
   constructor(
     private readonly jobService: JobService,
@@ -32,12 +33,21 @@ export class UserJobController {
 
   @Post(':id/update-status')
   @ApiOkResponse(successResponse)
-  async updateStatus(@Param('id') id: string, dto: JobUpdateStatusDto) {
-    return this.userJobService.updateStatusById(id, dto);
+  async updateStatus(
+    @Param('id') id: string,
+    @Req() req,
+    @Body() dto: JobUpdateStatusDto,
+  ) {
+    const userId = req.user['sub'];
+    console.log(id);
+    await this.userJobService.updateStatusById(userId, id, dto);
+    return {
+      status: 'success',
+    };
   }
   @ApiExtraModels(HistoryJobResponse)
   @ApiOkResponse({
-    description: 'List of user saved jobs',
+    description: 'List of history jobs',
     schema: {
       properties: {
         data: {
@@ -49,9 +59,10 @@ export class UserJobController {
       },
     },
   })
-  @Get('/history')
+  @Get('history')
   async getHistory(@Req() req) {
     const userId = req.user['sub'];
-    return this.userJobService.getHistory(userId);
+    console.log(userId);
+    return await this.userJobService.getHistory(userId);
   }
 }

@@ -10,11 +10,13 @@ import { JobRepository } from './repositories/job.repository';
 import { UserJobController } from './controllers/user-job.controller';
 import { UserJobService } from './services/user-job.service';
 import { UserJob, UserJobSchema } from './schemas/user-job.schema';
+import { User, UserSchema } from 'src/users/schemas/user.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Job.name, schema: JobSchema }]),
     MongooseModule.forFeature([{ name: UserJob.name, schema: UserJobSchema }]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     FilterModule,
     SearchModule,
   ],

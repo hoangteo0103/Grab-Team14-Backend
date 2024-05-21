@@ -10,7 +10,7 @@ const RoleGuard = (role: Role): Type<CanActivate> => {
 
       const request = context.switchToHttp().getRequest<RequestWithUser>();
       const user = request.user;
-
+      console.log(user, role);
       return user?.role === role;
     }
   }

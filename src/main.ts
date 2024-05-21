@@ -26,6 +26,7 @@ async function bootstrap() {
     .setDescription('Emploi App API description')
     .setVersion('1.0')
     .addTag('Emploi')
+    .addCookieAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('API', app, document);

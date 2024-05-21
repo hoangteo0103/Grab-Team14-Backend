@@ -12,7 +12,6 @@ type JwtPayload = {
 const extactFromCookie = (request) => {
   let token = null;
   if (request && request.cookies) token = request.cookies['access_token'];
-  console.log(token);
   return token;
 };
 
@@ -29,7 +28,8 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   async validate(payload: JwtPayload): Promise<any> {
     const res = await this.userService.findById(payload.sub);
     if (res) {
-      return { ...payload };
+      res['sub'] = payload.sub;
+      return res;
     } else {
       throw new Error('User not found');
     }
