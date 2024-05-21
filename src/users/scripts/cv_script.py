@@ -43,6 +43,7 @@ def extract_info_by_cv(cv_url, chat):
     except Exception as e:
         print(f"Error sending message: {e}")
         return {'skills': [], 'personal_information': {}}
+
     
 def process_cv():
     load_dotenv()
@@ -124,7 +125,7 @@ def process_cv():
                             )
     chat = model.start_chat()
 
-    info_dict = scan_cv.extract_info_by_cv(cv_url, chat)
+    info_dict = extract_info_by_cv(cv_url, chat)
     print(json.dumps(info_dict))
     return json.dumps(info_dict)
 

@@ -28,12 +28,32 @@ export class User {
   @Prop({
     required: false,
   })
-  name?: string;
+  fullName?: string;
 
   @Prop({
     required: false,
   })
-  contactNumber?: string;
+  phone?: string;
+
+  @Prop({
+    required: false,
+  })
+  address?: string;
+
+  @Prop({
+    required: false,
+  })
+  sex?: string;
+
+  @Prop({
+    required: false,
+  })
+  birthday?: Date;
+
+  @Prop({
+    required: false,
+  })
+  country?: string;
 
   @Prop()
   refreshToken?: string;
@@ -55,6 +75,26 @@ export class User {
     required: false,
   })
   skills?: string[];
+
+  @Prop({
+    required: false,
+  })
+  linkedin?: string;
+
+  @Prop({
+    required: false,
+  })
+  github?: string;
+
+  @Prop({
+    required: false,
+  })
+  facebook?: string;
+
+  @Prop({
+    required: false,
+  })
+  website?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

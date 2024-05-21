@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UpdateCVDto } from './dto/update-user.dto';
+import { UpdateCVDto, UpdateUserDto } from './dto/update-user.dto';
 import {
   ApiBody,
   ApiOkResponse,
@@ -21,8 +21,22 @@ export class UsersController {
   @ApiBody({ required: true, type: UpdateCVDto })
   @Post('/update-cv')
   async updateCV(@Req() req, @Body() dto: UpdateCVDto) {
-    const userId = req.sub['user'];
+    const userId = req.user['sub'];
     await this.usersService.updateCV(userId, dto);
+    return {
+      status: 'success',
+    };
+  }
+
+  @ApiOkResponse(successResponse)
+  @ApiUnprocessableEntityResponse({
+    type: ApiException,
+  })
+  @ApiBody({ required: true, type: UpdateUserDto })
+  @Post('/update-info')
+  async updateInfo(@Req() req, @Body() dto: UpdateUserDto) {
+    const userId = req.user['sub'];
+    await this.usersService.updateOptions(userId, dto);
     return {
       status: 'success',
     };

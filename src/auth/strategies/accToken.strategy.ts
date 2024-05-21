@@ -12,6 +12,7 @@ type JwtPayload = {
 const extactFromCookie = (request) => {
   let token = null;
   if (request && request.cookies) token = request.cookies['access_token'];
+  console.log(token);
   return token;
 };
 
@@ -21,10 +22,16 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([extactFromCookie]),
       secretOrKey: constantsJWT[0],
+      userNameField: 'email',
     });
   }
 
-  validate(payload: JwtPayload) {
-    return this.userService.findById(payload.sub);
+  async validate(payload: JwtPayload): Promise<any> {
+    const res = await this.userService.findById(payload.sub);
+    if (res) {
+      return { ...payload };
+    } else {
+      throw new Error('User not found');
+    }
   }
 }

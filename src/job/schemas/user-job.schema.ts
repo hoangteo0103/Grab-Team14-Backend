@@ -32,7 +32,7 @@ export class UserJob {
   @Prop({ required: true, type: JobSchema })
   job: Job;
 
-  @Prop({ required: true, default: Status.SAVED, type: Status })
+  @Prop({ required: true, type: Object.values(Status), default: Status.SAVED })
   status: string;
 }
 

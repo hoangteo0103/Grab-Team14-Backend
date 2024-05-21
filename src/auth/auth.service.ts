@@ -7,6 +7,7 @@ import { AuthDto } from './dto/auth.dto';
 import { constantsJWT } from './jwt-secret';
 import { ForbiddenException } from '@nestjs/common';
 import { create } from 'domain';
+import { ChangePasswordDto } from './dto/update-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -73,12 +74,13 @@ export class AuthService {
     // Check if user exists
     const user = await this.usersService.findByEmail(data.email);
     if (!user) throw new BadRequestException('User does not exist');
-    console.log(user, data.password);
     const passwordMatches = await argon2.verify(user.password, data.password);
     if (!passwordMatches)
       throw new BadRequestException('Password is incorrect');
-    const tokens = await this.getTokens(user.id, user.username);
-    await this.updateRefreshToken(user.id, tokens.refreshToken);
+    const userId = user._id.toString();
+    const tokens = await this.getTokens(userId, user.email);
+
+    await this.updateRefreshToken(userId, tokens.refreshToken);
     return tokens;
   }
 
@@ -137,8 +139,18 @@ export class AuthService {
       refreshToken,
     );
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
-    const tokens = await this.getTokens(user.id, user.username);
+    const tokens = await this.getTokens(user.id, user.email);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
+  }
+
+  async changePassword(userId: string, dto: ChangePasswordDto) {
+    const user = await this.usersService.findById(userId);
+    if (!user) throw new ForbiddenException('Access Denied');
+    console.log(user.password, dto.oldPassword);
+    const passwordMatches = await argon2.verify(user.password, dto.oldPassword);
+    if (!passwordMatches) throw new ForbiddenException('Wrong Password');
+    const hash = await this.hashData(dto.newPassword);
+    await this.usersService.updateOptions(userId, { password: hash });
   }
 }

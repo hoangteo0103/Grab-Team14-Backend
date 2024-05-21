@@ -43,14 +43,11 @@ export class UsersService {
   async findByEmail(email: string): Promise<UserDocument> {
     //return this.userModel.findOne({ email }).exec();
     const data = await this.userModel
-      .aggregate([
-        { $match: { email: email } },
-        { $project: { email: 1, password: 1 } },
-      ])
+      .aggregate([{ $match: { email: email } }])
       .exec();
     return data[0];
   }
-  async findByUsername(username: string): Promise<UserDocument> {
+  async findByusername(username: string): Promise<UserDocument> {
     return this.userModel.findOne({ username: username }).exec();
   }
 
@@ -94,6 +91,7 @@ export class UsersService {
     } else {
       throw new Error(error);
     }
+    console.log(res);
     this.userModel
       .findByIdAndUpdate(id, { cvURL: dto.cvURL, skills: res.skills })
       .exec();

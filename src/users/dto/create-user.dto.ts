@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import Role from '../role/roles.enum';
 export class CreateUserDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   @ApiProperty({ example: 'hoangteo' })
   username: string;
@@ -24,7 +24,7 @@ export class CreateUserDto {
   @ApiProperty({ example: 'password' })
   password: string;
 
-  @ValidateIf((o) => o.username != null)
+  @IsOptional()
   @ApiProperty({ enum: ['Admin', 'User'] })
   @IsString()
   role: Role;

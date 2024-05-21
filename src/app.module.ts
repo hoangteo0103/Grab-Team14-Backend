@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { FilterModule } from './filter/filter.module';
 import { JobModule } from './job/job.module';
 import { SearchModule } from './search/search.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { SearchModule } from './search/search.module';
     FilterModule,
     JobModule,
     SearchModule,
+    MediaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

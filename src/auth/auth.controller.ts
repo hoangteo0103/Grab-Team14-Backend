@@ -18,6 +18,7 @@ import { AuthDto } from './dto/auth.dto';
 import { RefreshTokenGuard } from '../common/guards/refreshToken.guards';
 import { UsersService } from '../users/users.service';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
+import { ChangePasswordDto } from './dto/update-auth.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -41,22 +42,36 @@ export class AuthController {
 
   @Post('signin')
   async signin(@Body() data: AuthDto, @Req() req, @Res() res) {
-    console.log(data);
     const jwt_token = await this.authService.signIn(data);
-    res.cookie('access_token', jwt_token.accessToken);
-    res.cookie('refresh_token', jwt_token.refreshToken);
+    res.cookie('access_token', jwt_token.accessToken, {
+      sameSite: 'none',
+      secure: true,
+    });
+    res.cookie('refresh_token', jwt_token.refreshToken, {
+      sameSite: 'none',
+      secure: true,
+    });
     const user = await this.userService.findByEmail(data.email);
 
     const returnUser = {
-      username: user.username,
-      email: user.email,
+      ...user,
+      password: undefined,
     };
-    console.log(returnUser);
     return res.status(HttpStatus.OK).json({
       user: returnUser,
       accessToken: jwt_token.accessToken,
       refreshToken: jwt_token.refreshToken,
     });
+  }
+
+  @ApiCookieAuth()
+  @UseGuards(AccessTokenGuard)
+  @Post('change-password')
+  async changePassword(@Req() req, @Res() res, @Body() dto: ChangePasswordDto) {
+    const userId = req.user['sub'];
+    console.log('now', userId, dto);
+    await this.authService.changePassword(userId, dto);
+    return res.status(HttpStatus.OK).json({ message: 'Password changed' });
   }
   @ApiCookieAuth()
   @UseGuards(AccessTokenGuard)

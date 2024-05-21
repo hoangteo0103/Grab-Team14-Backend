@@ -12,7 +12,7 @@ import { ElasticsearchModule } from '@nestjs/elasticsearch';
           id: configService.get<string>('ELASTICSEARCH_CLOUD_ID'),
         },
         auth: {
-          username: configService.get<string>('ELASTICSEARCH_USERNAME'),
+          username: configService.get<string>('ELASTICSEARCH_username'),
           password: configService.get<string>('ELASTICSEARCH_PASSWORD'),
         },
       }),

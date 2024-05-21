@@ -12,7 +12,7 @@ export class S3Service {
       .replace(/^.*[\\\/]/, '')
       .replace(/\s/g, '')}`;
     const params = {
-      Bucket: this.configService.get<string>('AWS.PUBLIC_BUCKET_NAME'),
+      Bucket: this.configService.get<string>('AWS_PUBLIC_BUCKET_NAME'),
       Key: key,
       ACL: data.isPublic ? 'public-read' : 'private',
       ContentType: data.contentType,
@@ -23,9 +23,7 @@ export class S3Service {
   }
 
   public getPublicUrlInS3(fileName) {
-    const prefixUrl = `https://${this.configService.get<string>(
-      'AWS.PUBLIC_BUCKET_NAME',
-    )}.s3.amazonaws.com`;
+    const prefixUrl = `https://grabbootcamp.s3.amazonaws.com`;
     const regex = new RegExp(`^${prefixUrl}`, 'g');
     if (!regex.test(fileName)) {
       return `${prefixUrl}/${fileName}`;

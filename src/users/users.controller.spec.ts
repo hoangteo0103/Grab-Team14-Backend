@@ -62,7 +62,7 @@ describe('UsersController', () => {
         username: 'buinguyenhoang',
       };
       let employee = await (
-        await usersService.findByUsername('buinguyenhoang')
+        await usersService.findByusername('buinguyenhoang')
       ).toObject();
       delete employee._id;
       expect(employee).toContain(result);
