@@ -40,7 +40,7 @@ jobs:
         with:
           registry-type: public
 
-      - name: 
+      - name: Log into Google Cloud Platform
         id: login-auth_gcp
         uses: gcloud auth activate-service-account grab-663@lunar-standard-423809-e5.iam.gserviceaccount.com --key-file=${{ secrets.GCP_CREDENTIALS }} --project=lunar-standard-423809-e5
  
