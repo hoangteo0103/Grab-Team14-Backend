@@ -26,6 +26,7 @@ import { PaginationCustomInterceptor } from '../interceptors/pagination-custom.i
 import { filter } from 'src/common/decorators/filter';
 import Role from 'src/users/role/roles.enum';
 import RoleGuard from 'src/users/role/roles.guards';
+import { Request } from 'express';
 
 @ApiTags('job')
 @Controller('job')
@@ -114,20 +115,35 @@ export class JobController {
     type: 'string',
     example: 'Developer',
   })
+  @ApiQuery({
+    name: 'isMatchingCV',
+    required: false,
+    type: 'boolean',
+    example: 'true',
+  })
+  @ApiQuery({
+    name: 'userId',
+    required: false,
+    type: 'string',
+    example: 'true',
+  })
   async list(
     @pagination() paginationParam,
+    @Req() req: Request,
     @filter() filterParams,
     @Query('search') search: string,
+    @Query('isMatchingCV') isMatchingCV: boolean,
+    @Query('userId') userId: string,
   ) {
-    if (search) {
-      console.log(search);
-      return this.jobService.searchForJobs(
-        search,
-        paginationParam,
-        filterParams,
-      );
-    }
-    return this.jobService.list(paginationParam, filterParams);
+    return this.jobService.searchForJobs(
+      search,
+      paginationParam,
+      filterParams,
+      isMatchingCV,
+      userId,
+    );
+    // }
+    // return this.jobService.list(paginationParam, filterParams);
   }
 
   @ApiExtraModels(JobDetailResponse)
@@ -150,6 +166,7 @@ export class JobController {
   @Get(':id/cover-letter')
   async getCoverLetter(@Req() req, @Param('id') id: string) {
     const userId = req.user['sub'];
+
     return this.jobService.getCoverLetter(userId, id);
   }
 }

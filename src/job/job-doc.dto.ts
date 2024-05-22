@@ -73,6 +73,9 @@ export class JobDetailResponse {
   date: Date;
 
   @ApiProperty()
+  status: string;
+
+  @ApiProperty()
   jobLink: string;
 
   @ApiProperty()

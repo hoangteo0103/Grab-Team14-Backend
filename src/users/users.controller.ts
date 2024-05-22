@@ -25,9 +25,40 @@ export class UsersController {
   @Post('/update-cv')
   async updateCV(@Req() req, @Body() dto: UpdateCVDto) {
     const userId = req.user['sub'];
-    await this.usersService.updateCV(userId, dto);
+    // const res = await this.usersService.updateCV(userId, dto);
+    const res = {
+      result: {
+        skills: [
+          'Python',
+          'C/C++',
+          'Java',
+          'Javascript',
+          'PyTorch',
+          'scikit-learn',
+          'SQL',
+          'pandas',
+          'matplotlib',
+          'seaborn',
+          'Deep Learning',
+          'CNN',
+          'RNN',
+          'Transformer',
+          'Attention',
+          'Multimodal',
+        ],
+        personal_information: {
+          phone_number: '0962452173',
+          email: 'chauthanhtruc2002@gmail.com',
+          name: 'CHAU THI THANH TRUC',
+        },
+      },
+    };
     return {
       status: 'success',
+      skills: res.result.skills,
+      phone: res.result.personal_information.phone_number,
+      email: res.result.personal_information.email,
+      fullName: res.result.personal_information.name,
     };
   }
 

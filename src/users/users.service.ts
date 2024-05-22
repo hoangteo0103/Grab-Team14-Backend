@@ -10,6 +10,19 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserDocument> {
+    console.log(createUserDto);
+
+    const res = await this.userModel.findOne({ email: createUserDto.email });
+
+    if (res != null) {
+      throw new Error('Email already exists');
+    }
+    const res2 = await this.userModel.findOne({
+      username: createUserDto.username,
+    });
+    if (res2 != null) {
+      throw new Error('Username already exists');
+    }
     const createdUser = new this.userModel(createUserDto);
     return createdUser.save();
   }

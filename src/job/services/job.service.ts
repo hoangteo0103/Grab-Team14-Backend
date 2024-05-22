@@ -71,21 +71,6 @@ export class JobService {
         order: 1,
         ...paginationParam.sort,
       },
-      select: [
-        'id',
-        'title',
-        'date',
-        'company',
-        'companyLink',
-        'companyImageUrl',
-        'location',
-        'companyLocation',
-        'experience',
-        'type',
-        'workingMode',
-        'platform',
-        'industry',
-      ],
     });
     return result;
   }
@@ -96,30 +81,40 @@ export class JobService {
     });
   }
 
-  async searchForJobs(text: string, paginationParam, filterParam) {
+  async searchForJobs(
+    text: string,
+    paginationParam,
+    filterParam,
+    isMatchingCV,
+    userId,
+  ) {
     const results = await this.jobsSearchService.search(
       text,
       paginationParam,
       filterParam,
+      isMatchingCV,
+      userId,
     );
-    const ids = results.map((result) => result.id);
-    const conditions: {
-      _id?: {
-        $in: string[];
-      };
-    } = {};
-    conditions._id = {
-      $in: ids,
-    };
 
-    return await this.jobRepository.pagination({
-      conditions: conditions,
-      ...paginationParam,
-      sort: {
-        order: 1,
-        ...paginationParam.sort,
-      },
-    });
+    return results;
+    // const ids = results.map((result) => result.id);
+    // const conditions: {
+    //   _id?: {
+    //     $in: string[];
+    //   };
+    // } = {};
+    // conditions._id = {
+    //   $in: ids,
+    // };
+
+    // return await this.jobRepository.pagination({
+    //   conditions: conditions,
+    //   ...paginationParam,
+    //   sort: {
+    //     order: 1,
+    //     ...paginationParam.sort,
+    //   },
+    // });
   }
 
   async getCoverLetter(userId, id: string) {
@@ -151,7 +146,7 @@ export class JobService {
       JSON.stringify(userInfo),
     ]);
 
-    const result = pythonProcess.stdout?.toString()?.trim();
+    const result = pythonProcess.stdout?.toString();
     console.log(result);
     return result;
   }

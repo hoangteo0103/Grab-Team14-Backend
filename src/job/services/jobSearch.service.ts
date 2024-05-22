@@ -3,66 +3,62 @@ import { ElasticsearchService } from '@nestjs/elasticsearch';
 import { Job } from 'src/job/schemas/job.schema';
 import JobSearchResult from '../types/jobSearchResponse.interface';
 import JobSearchBody from '../types/jobSearchBody.interface';
+import { UserRepository } from 'src/users/repositories/user.repository';
+import { filter } from 'rxjs';
 
 @Injectable()
 export default class JobsSearchService {
   index = 'search-jobs';
 
-  constructor(private readonly elasticsearchService: ElasticsearchService) {}
+  constructor(
+    private readonly elasticsearchService: ElasticsearchService,
+    private readonly userRepository: UserRepository,
+  ) {}
 
-  async search(text: string, paginationParam, filterParam) {
-    const conditions: {
-      type?: string;
-      experience?: string;
-      location?: string;
-      industry?: string;
-      workingMode?: string;
-    } = {};
-    let filterDate = [];
-    if (filterParam.time) {
-      const date = new Date();
-      if (filterParam.time === 'DAY') {
-        date.setDate(date.getDate() - 1);
+  async search(
+    text: string,
+    paginationParam,
+    filterParam,
+    isMatchingCV: boolean,
+    userId: string,
+  ) {
+    let userQueryInfo = '';
+    if (isMatchingCV == true && userId != null) {
+      const user = await this.userRepository.findOne({ _id: userId });
+      if (!user) {
+        throw new Error('User not found');
       }
-      if (filterParam.time === 'WEEK') {
-        date.setDate(date.getDate() - 7);
-      }
-
-      if (filterParam.time === 'MONTH') {
-        date.setMonth(date.getMonth() - 1);
-      }
-      filterDate.push({
-        range: {
-          date: {
-            gte: date.toISOString(),
-          },
-        },
-      });
+      userQueryInfo = user.skills.join(' ');
+    }
+    let conditions = '';
+    if (filterParam.experience != null) {
+      conditions = conditions + ' ' + filterParam.experience;
+    }
+    if (filterParam.location != null) {
+      conditions = conditions + ' ' + filterParam.location;
     }
 
-    if (filterParam.type) {
-      conditions.type = filterParam.type;
+    if (filterParam.industry != null) {
+      conditions = conditions + ' ' + filterParam.industry;
     }
 
-    if (filterParam.experience) {
-      conditions.experience = filterParam.experience;
+    if (filterParam.type != null) {
+      conditions = conditions + ' ' + filterParam.type;
     }
 
-    if (filterParam.location) {
-      conditions.location = filterParam.location;
+    if (filterParam.workingMode != null) {
+      conditions = conditions + ' ' + filterParam.workingMode;
     }
 
-    if (filterParam.industry) {
-      conditions.industry = filterParam.industry;
-    }
+    text = text + ' ' + conditions;
 
-    if (filterParam.workingMode) {
-      conditions.workingMode = filterParam.workingMode;
-    }
+    text = text + ' ' + userQueryInfo;
+    console.log('text', text);
     const body = await this.elasticsearchService.search<JobSearchResult>({
       index: this.index,
       body: {
-        size: 1000,
+        size: paginationParam.limit,
+        from: (paginationParam.page - 1) * paginationParam.limit,
         query: {
           function_score: {
             query: {
@@ -87,7 +83,17 @@ export default class JobsSearchService {
       },
     });
     const hits = body.hits.hits;
-    const res = hits.map((item) => item._source);
-    return res;
+
+    const docs = hits.map((hit) => {
+      return {
+        ...hit._source,
+        score: hit._score,
+      };
+    });
+
+    return {
+      totalDocs: body.hits.total,
+      docs: docs,
+    };
   }
 }

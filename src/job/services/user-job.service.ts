@@ -21,7 +21,10 @@ export class UserJobService {
 
   async updateStatusById(userId: string, id: string, dto: JobUpdateStatusDto) {
     if (dto.status == Status.SAVED) {
-      const job = await this.userModel.findOne({ userId: userId, jobId: id });
+      const job = await this.userJobModel.findOne({
+        userId: userId,
+        jobId: id,
+      });
       if (job != null) {
         console.log('Duplicated');
         return;
@@ -52,6 +55,17 @@ export class UserJobService {
         return jobDetail;
       }),
     );
+    console.log(jobs);
     return jobs;
+  }
+
+  async getJobStatus(userId: string, jobId: string) {
+    const job = await this.userJobModel.findOne({
+      userId: userId,
+      jobId: jobId,
+    });
+    return {
+      status: job?.status,
+    };
   }
 }

@@ -69,7 +69,6 @@ export class AuthController {
   @Post('change-password')
   async changePassword(@Req() req, @Res() res, @Body() dto: ChangePasswordDto) {
     const userId = req.user['sub'];
-    console.log('now', userId, dto);
     await this.authService.changePassword(userId, dto);
     return res.status(HttpStatus.OK).json({ message: 'Password changed' });
   }
@@ -77,7 +76,6 @@ export class AuthController {
   @UseGuards(AccessTokenGuard)
   @Get('logout')
   logout(@Req() req: Request, @Res() res) {
-    console.log(req.user['sub']);
     this.authService.logout(req.user['sub']);
   }
 

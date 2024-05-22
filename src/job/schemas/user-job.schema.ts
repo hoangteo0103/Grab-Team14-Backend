@@ -20,7 +20,7 @@ export class UserJob {
   @Prop({ required: true })
   jobId: string;
 
-  @Prop({ required: true, type: Object.values(Status), default: Status.SAVED })
+  @Prop({ required: true })
   status: string;
 }
 

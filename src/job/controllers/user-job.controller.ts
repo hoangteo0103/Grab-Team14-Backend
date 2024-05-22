@@ -65,4 +65,11 @@ export class UserJobController {
     console.log(userId);
     return await this.userJobService.getHistory(userId);
   }
+
+  @Get(':id/status')
+  async getStatus(@Param('id') id: string, @Req() req) {
+    const userId = req.user['sub'];
+    const res = await this.userJobService.getJobStatus(userId, id);
+    return res;
+  }
 }
