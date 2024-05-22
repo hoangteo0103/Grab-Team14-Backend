@@ -6,6 +6,20 @@ on:
       - main
  
 jobs:
+  auth_gcp:
+    name: Authenticate with Google Cloud Platform
+    runs-on: ubuntu-latest
+    steps:
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
   create-docker-image:
     name: Build and push the Docker image to ECR
     runs-on: ubuntu-latest
@@ -25,6 +39,10 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
         with:
           registry-type: public
+
+      - name: 
+        id: login-auth_gcp
+        uses: gcloud auth activate-service-account grab-663@lunar-standard-423809-e5.iam.gserviceaccount.com --key-file=${{ secrets.GCP_CREDENTIALS }} --project=lunar-standard-423809-e5
  
       - name: Build, tag, and push docker image to Amazon ECR Public
         env:
