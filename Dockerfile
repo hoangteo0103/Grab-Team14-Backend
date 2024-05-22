@@ -1,4 +1,3 @@
-
 # Installing dependencies:
 
 FROM node:20-alpine AS install-dependencies
@@ -7,7 +6,7 @@ WORKDIR /user/src/app
 
 COPY package.json package-lock.json ./
 
-RUN NODE_ENV=development npm i
+RUN npm ci --omit=dev
 
 COPY . .
 
@@ -36,6 +35,5 @@ COPY --from=create-build /user/src/app/dist ./dist
 COPY package.json ./
 
 EXPOSE 3000
-
 
 CMD ["npm", "run", "start:prod"]
