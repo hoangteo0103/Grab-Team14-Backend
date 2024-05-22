@@ -64,18 +64,24 @@ export default class JobsSearchService {
       body: {
         size: 1000,
         query: {
-          multi_match: {
-            query: text,
-            fields: [
-              'title',
-              'description',
-              'company',
-              'location',
-              'industry',
-              'workingMode',
-              'type',
-              'experience',
-            ],
+          function_score: {
+            query: {
+              multi_match: {
+                query: text,
+                fields: [
+                  'title',
+                  'description',
+                  'company',
+                  'location',
+                  'industry',
+                  'workingMode',
+                  'type',
+                  'experience',
+                ],
+                fuzziness: 'AUTO',
+                prefix_length: 2,
+              },
+            },
           },
         },
       },

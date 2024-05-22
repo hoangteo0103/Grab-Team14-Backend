@@ -11,6 +11,12 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
 
+  app.enableCors({
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
+
   const configService = app.get(ConfigService);
   configAWS.config.update({
     accessKeyId: configService.get('AWS_ACCESS_KEY_ID'),

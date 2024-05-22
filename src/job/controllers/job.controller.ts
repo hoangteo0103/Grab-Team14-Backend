@@ -30,6 +30,7 @@ import RoleGuard from 'src/users/role/roles.guards';
 @ApiTags('job')
 @Controller('job')
 @ApiExtraModels(JobListResponse)
+@ApiExtraModels(PaginationResponse)
 export class JobController {
   constructor(private readonly jobService: JobService) {}
 
