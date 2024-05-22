@@ -43,12 +43,17 @@ export class User {
   @Prop({
     required: false,
   })
+  city?: string;
+
+  @Prop({
+    required: false,
+  })
   sex?: string;
 
   @Prop({
     required: false,
   })
-  birthday?: Date;
+  birthday?: string;
 
   @Prop({
     required: false,

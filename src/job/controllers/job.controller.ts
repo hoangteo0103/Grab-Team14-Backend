@@ -8,6 +8,8 @@ import {
   Delete,
   UseInterceptors,
   Query,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { JobService } from '../services/job.service';
 import {
@@ -22,6 +24,8 @@ import { pagination } from 'src/common/decorators/pagination';
 import { JobDetailResponse, JobListResponse } from '../job-doc.dto';
 import { PaginationCustomInterceptor } from '../interceptors/pagination-custom.interceptor';
 import { filter } from 'src/common/decorators/filter';
+import Role from 'src/users/role/roles.enum';
+import RoleGuard from 'src/users/role/roles.guards';
 
 @ApiTags('job')
 @Controller('job')
@@ -139,5 +143,12 @@ export class JobController {
   @Get(':id')
   async getDetailJob(@Param('id') id: string) {
     return this.jobService.getJobById(id);
+  }
+
+  @UseGuards(RoleGuard(Role.User))
+  @Get(':id/cover-letter')
+  async getCoverLetter(@Req() req, @Param('id') id: string) {
+    const userId = req.user['sub'];
+    return this.jobService.getCoverLetter(userId, id);
   }
 }

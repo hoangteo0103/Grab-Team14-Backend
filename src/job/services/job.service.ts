@@ -6,12 +6,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import JobsSearchService from './jobSearch.service';
 import { JobRepository } from '../repositories/job.repository';
 import { filter } from 'rxjs';
+import { UserRepository } from 'src/users/repositories/user.repository';
+const { spawnSync } = require('child_process');
 
 @Injectable()
 export class JobService {
   constructor(
     public jobRepository: JobRepository,
     private jobsSearchService: JobsSearchService,
+    private userRepository: UserRepository,
   ) {}
   public async list(paginationParam, filterParam) {
     const conditions: {
@@ -117,5 +120,39 @@ export class JobService {
         ...paginationParam.sort,
       },
     });
+  }
+
+  async getCoverLetter(userId, id: string) {
+    const user = await this.userRepository.findOne({
+      _id: userId,
+    });
+
+    const job = await this.jobRepository.findOne({
+      _id: id,
+    });
+
+    const userInfo = {
+      fullName: user.fullName,
+      email: user.email,
+      phone: user.phone,
+      address: user.address,
+      city: user.city,
+      skills: user.skills,
+    };
+
+    const pythonProcess = await spawnSync('python', [
+      'src/scripts/job_script.py',
+      'generate_cover_letter',
+      job.company,
+      job.title,
+      job.experience,
+      job.requirements,
+      job.description,
+      JSON.stringify(userInfo),
+    ]);
+
+    const result = pythonProcess.stdout?.toString()?.trim();
+    console.log(result);
+    return result;
   }
 }

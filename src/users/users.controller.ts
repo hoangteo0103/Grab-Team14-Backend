@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateCVDto, UpdateUserDto } from './dto/update-user.dto';
 import {
@@ -8,7 +8,10 @@ import {
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { ApiException, successResponse } from 'src/common/docs/response.doc';
+import RoleGuard from './role/roles.guards';
+import Role from './role/roles.enum';
 
+@UseGuards(RoleGuard(Role.User))
 @ApiTags('user')
 @Controller('user')
 export class UsersController {

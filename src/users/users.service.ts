@@ -78,7 +78,7 @@ export class UsersService {
     // await this.userModel.findByIdAndUpdate(id, dto).exec();
     console.log(dto);
     const pythonProcess = await spawnSync('python', [
-      'src/users/scripts/cv_script.py',
+      'src/scripts/cv_script.py',
       'process_cv',
       dto.cvURL,
     ]);

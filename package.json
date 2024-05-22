@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.13.1",
+    "@nestjs/bull": "^10.1.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
@@ -35,6 +36,7 @@
     "@types/passport": "^1.0.16",
     "argon2": "^0.40.1",
     "aws-sdk": "^2.1613.0",
+    "bull": "^4.12.7",
     "child_process": "^1.0.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",

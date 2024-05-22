@@ -67,6 +67,12 @@ export class UpdateUserDto {
 
   @ApiProperty({
     required: false,
+    example: 'Ho Chi Minh',
+  })
+  city?: string;
+
+  @ApiProperty({
+    required: false,
     example: 'https://linkedin.com/avatar.png',
   })
   linkedin?: string;

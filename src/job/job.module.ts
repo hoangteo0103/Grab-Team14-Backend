@@ -11,6 +11,7 @@ import { UserJobController } from './controllers/user-job.controller';
 import { UserJobService } from './services/user-job.service';
 import { UserJob, UserJobSchema } from './schemas/user-job.schema';
 import { User, UserSchema } from 'src/users/schemas/user.schema';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { User, UserSchema } from 'src/users/schemas/user.schema';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     FilterModule,
     SearchModule,
+    UsersModule,
   ],
   controllers: [JobController, UserJobController],
   exports: [JobService, JobRepository, UserJobService],

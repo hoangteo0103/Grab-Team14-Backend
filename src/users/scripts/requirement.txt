@@ -1,4 +1,0 @@
-pypdf
-langchain_community
-langchain
-google-cloud-aiplatform
