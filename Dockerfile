@@ -37,8 +37,5 @@ COPY package.json ./
 
 EXPOSE 3000
 
-RUN curl -sSL https://sdk.cloud.google.com | bash
-
-ENV PATH $PATH:/root/google-cloud-sdk/bin
 
 CMD ["npm", "run", "start:prod"]
