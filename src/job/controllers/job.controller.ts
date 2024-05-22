@@ -135,15 +135,25 @@ export class JobController {
     @Query('isMatchingCV') isMatchingCV: boolean,
     @Query('userId') userId: string,
   ) {
-    return this.jobService.searchForJobs(
-      search,
-      paginationParam,
-      filterParams,
-      isMatchingCV,
-      userId,
-    );
+    console.log('filterParams', filterParams);
+    if (
+      search ||
+      filterParams.type ||
+      filterParams.experience ||
+      filterParams.location ||
+      filterParams.industry ||
+      filterParams.workingMode
+    ) {
+      return this.jobService.searchForJobs(
+        search,
+        paginationParam,
+        filterParams,
+        isMatchingCV,
+        userId,
+      );
+    }
     // }
-    // return this.jobService.list(paginationParam, filterParams);
+    return this.jobService.list(paginationParam, filterParams);
   }
 
   @ApiExtraModels(JobDetailResponse)

@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Search } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
 import { Job } from 'src/job/schemas/job.schema';
 import JobSearchResult from '../types/jobSearchResponse.interface';
 import JobSearchBody from '../types/jobSearchBody.interface';
 import { UserRepository } from 'src/users/repositories/user.repository';
 import { filter } from 'rxjs';
-
 @Injectable()
 export default class JobsSearchService {
   index = 'search-jobs';
@@ -90,6 +89,9 @@ export default class JobsSearchService {
         score: hit._score,
       };
     });
+
+    let value: any = body.hits.total.valueOf();
+    console.log('value', value);
 
     return {
       totalDocs: body.hits.total,
