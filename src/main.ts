@@ -10,10 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
-  app.enableCors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-  });
+
   const configService = app.get(ConfigService);
   configAWS.config.update({
     accessKeyId: configService.get('AWS_ACCESS_KEY_ID'),
