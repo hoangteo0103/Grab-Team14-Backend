@@ -135,13 +135,14 @@ export class JobController {
     @Query('isMatchingCV') isMatchingCV: boolean,
     @Query('userId') userId: string,
   ) {
-    console.log('filterParams', filterParams);
     if (
       search ||
       filterParams.type ||
       filterParams.experience ||
       filterParams.industry ||
-      filterParams.workingMode
+      filterParams.workingMode ||
+      isMatchingCV ||
+      userId
     ) {
       return this.jobService.searchForJobs(
         search,

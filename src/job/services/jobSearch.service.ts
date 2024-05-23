@@ -22,13 +22,16 @@ export default class JobsSearchService {
     userId: string,
   ) {
     let userQueryInfo = '';
-    if (isMatchingCV == true && userId != null) {
+    if (userId) {
+      console.log('isMatchingCV', isMatchingCV, userId);
       const user = await this.userRepository.findOne({ _id: userId });
       if (!user) {
         throw new Error('User not found');
       }
       userQueryInfo = user.skills.join(' ');
     }
+
+    console.log('userQueryInfo', userQueryInfo);
     let conditions = '';
     if (filterParam.experience != null) {
       conditions = conditions + ' ' + filterParam.experience;
