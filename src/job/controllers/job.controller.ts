@@ -140,7 +140,6 @@ export class JobController {
       search ||
       filterParams.type ||
       filterParams.experience ||
-      filterParams.location ||
       filterParams.industry ||
       filterParams.workingMode
     ) {
