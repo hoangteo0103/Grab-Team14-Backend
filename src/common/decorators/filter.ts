@@ -11,24 +11,24 @@ export const handleFilter = (request) => {
     industry: request.query.industry,
     location: request.query.location,
   };
-  // parse sort field, input: field1.asc_field2_desc
+  // parse sort field, input: field1.asc_field2_descs
   if (_.isEmpty(filterParams.time)) {
-    filterParams.time = NaN;
+    filterParams.time = null;
   }
   if (_.isEmpty(filterParams.type)) {
-    filterParams.type = NaN;
+    filterParams.type = null;
   }
   if (_.isEmpty(filterParams.experience)) {
-    filterParams.experience = NaN;
+    filterParams.experience = null;
   }
   if (_.isEmpty(filterParams.workingMode)) {
-    filterParams.workingMode = NaN;
+    filterParams.workingMode = null;
   }
   if (_.isEmpty(filterParams.industry)) {
-    filterParams.industry = NaN;
+    filterParams.industry = null;
   }
   if (_.isEmpty(filterParams.location)) {
-    filterParams.location = NaN;
+    filterParams.location = null;
   }
   return filterParams;
 };

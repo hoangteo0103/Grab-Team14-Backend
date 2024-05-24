@@ -139,9 +139,7 @@ export class JobController {
       search ||
       filterParams.type ||
       filterParams.experience ||
-      filterParams.industry ||
       filterParams.workingMode ||
-      isMatchingCV ||
       userId
     ) {
       return this.jobService.searchForJobs(
