@@ -136,6 +136,13 @@ export class JobController {
     @Query('userId') userId: string,
   ) {
     console.log('filterParams', paginationParam);
+    return this.jobService.searchForJobs(
+      search,
+      paginationParam,
+      filterParams,
+      isMatchingCV,
+      userId,
+    );
     if (
       search ||
       filterParams.type ||
