@@ -135,7 +135,7 @@ export class JobController {
     @Query('isMatchingCV') isMatchingCV: boolean,
     @Query('userId') userId: string,
   ) {
-    console;
+    console.log('filterParams', paginationParam);
     if (
       search ||
       filterParams.type ||
