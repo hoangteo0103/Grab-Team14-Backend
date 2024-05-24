@@ -64,6 +64,8 @@ export class JobService {
     if (filterParam.workingMode) {
       conditions.workingMode = filterParam.workingMode;
     }
+    const testMongo = await this.jobRepository.findAll();
+    console.log('conditions', conditions, testMongo);
     const result = await this.jobRepository.pagination({
       conditions,
       ...paginationParam,
